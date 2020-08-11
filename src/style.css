@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'Branda';
+    src: url('./Branda.ttf');
+}
+
+.hello {
+    color: red;
+    background: url('./icon.png');
+    background-repeat: no-repeat;
+    font-family: 'Branda';
+}
