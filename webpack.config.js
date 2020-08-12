@@ -4,9 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 module.exports = {
     mode: 'development',
-    entry: {
-        index: './src/index.js'
-    },
+    entry: './src/index.js',
     devtool: 'inline-source-map',
     devServer: {
         contentBase: './dist'
@@ -16,13 +14,25 @@ module.exports = {
             cleanStaleWebpackAssets: false //Not removing index.html after incremental build triggered by webpack --watch
         }),
         new HtmlWebpackPlugin({
-            title: 'Output Management'
+            title: 'Caching'
         })
     ],
     output: {
-        filename: '[name].bundle.js',
-        chunkFilename: '[name].bundle.js',
+        filename: '[name].[contenthash].js',
         path: path.resolve(__dirname, 'dist')
+    },
+    optimization: {
+        moduleIds: 'hashed', // set `vendor` has to stay consistent between builds
+        runtimeChunk: 'single',
+        splitChunks: {
+            cacheGroups: {
+                vendor: {
+                    test: /[\\/]node_modules[\\/]/,
+                    name: 'vendors',
+                    chunks: 'all'
+                }
+            }
+        }
     },
     module: {
         rules: [
